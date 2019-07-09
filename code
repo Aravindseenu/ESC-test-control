@@ -1,0 +1,41 @@
+/*coded by Aravindseenu @AK
+ * code for testing the ESC for BLDC 
+ */
+#include <Servo.h>//Using servo library to control ESC
+
+Servo esc; //Creating a servo class with name as esc
+int val;
+void setup()
+
+{
+
+esc.attach(8); //Specify the esc signal pin,Here as D8
+
+esc.writeMicroseconds(1000); //initialize the signal to 1000
+
+Serial.begin(9600);
+
+}
+
+void loop()
+{ if (Serial.available() > 0)
+  {
+    
+    val = Serial.parseInt();
+    Serial.println(val);//Display received value on Serial Monitor
+    if (!val == 0)
+    {esc.writeMicroseconds(val);} 
+  }
+// {esc.writeMicroseconds(2000);} //manual command for speed between 1000 to 2000
+ 
+ {
+int val; //Creating a variable val
+
+val= analogRead(A0); //Read input from analog pin a0 and store in val
+
+val= map(val, 0, 1023,1000,2000); //mapping val to minimum and maximum(Change if needed) 
+
+esc.writeMicroseconds(val); //using val as the signal to esc
+
+}
+}
